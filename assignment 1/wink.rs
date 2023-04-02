@@ -3,12 +3,16 @@ use std::io::{BufRead, BufReader, BufWriter, Write};
 
 const BUF_SIZE: usize = 1000;
 
-fn missing_arthritis<P: AsRef<Path>>(&bed_file_reference, &bim_file_reference, &fam_file_reference) -> std::io::Result<Vec<Vec<u8>>> {
+fn missing_arthritis<P: AsRef<Path>>(filename: P) -> std::io::Result<Vec<Vec<u8>>> {
 
-    
-    let bed_file = File::open(&bed_file_reference).expect("Failed to open bed file");
-    let bim_file = File::open(&bim_file_reference).expect("Failed to open bim file");
-    let fam_file = File::open(&fam_file_reference).expect("Failed to open fam file");
+    let file_base_name = filename; // replace with the actual file name without the extension
+    let bed_file_name = format!("{}.bed", file_base_name);
+    let fam_file_name = format!("{}.fam", file_base_name);
+    let bim_file_name = format!("{}.bim", file_base_name);
+
+    let bed_file = File::open(&bed_file_name).expect("Failed to open bed file");
+    let bim_file = File::open(&fam_file_name).expect("Failed to open bim file");
+    let fam_file = File::open(&bim_file_name).expect("Failed to open fam file");
 
     // read the number of individuals and SNPs
     let mut num_individuals = BufReader::new(fam_file).lines().count();
@@ -57,8 +61,8 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     // Check that the input file names were provided
-    if args.len() != 4 {
-        eprintln!("Usage: {} <bed_file> <bim_file> <fam_file>", args[0]);
+    if args.len() != 3 {
+        eprintln!("Usage: {} <command> <dataset>", args[0]);
         std::process::exit(1);
     }
 
@@ -67,9 +71,24 @@ fn main() {
     // let bim_file = File::open(&args[2]).expect("Failed to open bim file");
     // let fam_file = File::open(&args[3]).expect("Failed to open fam file");
 
-    let bed_file_reference = &args[1];
-    let bim_file_reference = &args[2];
-    let fam_file_reference = &args[3];
-    
-    read_plink_bed_file(bed_file_reference, bim_file_reference, fam_file_reference)?;
+    let command = & args[1];
+
+    match command {
+        "missing" => {
+            missing_arthritis(filename)?;
+        },
+        "aaf" => {
+            // Code to handle the 'aaf' case
+        },
+        "trans10" => {
+            // Code to handle the 'trans10' case
+        },
+        "trans01" => {
+            // Code to handle the 'trans01' case
+        },
+        _ => {
+            eprintln!("Invalid command Usage: {} <command: missing, aaf, trans10, trans01>", args[0]);
+            std::process::exit(1);
+        }
+    }
 }
