@@ -99,8 +99,8 @@ fn aaf(prefix: &str) {
 
     let mut aaf = Vec::with_capacity(num_snps);
     aaf.extend(vec![0.0; num_snps]);
-    let mut allelle_count = Vec::with_capacity(num_snps);
-    allelle_count.extend(vec![0.0; num_snps]);
+    let mut allele_count = Vec::with_capacity(num_snps);
+    allele_count.extend(vec![0.0; num_snps]);
 
     let mut j_iter = (num_individuals/4) as usize;
 
@@ -125,8 +125,8 @@ fn aaf(prefix: &str) {
                         aaf[i] += 2.0;
                     } else if (buf[0] >> k*2) & 0b11 == 0b10 {
                         aaf[i] += 1.0;
-                    } else if (buf[0] >> k*2) & 0b01 == 0b00 {
-                        allelle_count[i] += 1.0;
+                    } else if (buf[0] >> k*2) & 0b11 == 0b00 {
+                        allele_count[i] += 1.0;
                     }
     
                 }
