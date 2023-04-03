@@ -139,7 +139,7 @@ fn aaf(prefix: &str) {
     // calculates and rounds to 4 decimal places
     for ind in 0..aaf.len() {
         aaf[ind] *= 10000.0;
-        aaf[ind] /= 2.0 * (num_individuals as f64 - allelle_count[0]);
+        aaf[ind] /= 2.0 * (num_individuals as f64 - allele_count[0]);
         aaf[ind] = aaf[ind].round() / 10000.0;
     }
 
@@ -242,9 +242,6 @@ fn trans10(prefix: &str) {
                 // println!("{:?}", j * 4 + k );
                 byte += tbed_vec[i][j * 4 + k] << 2 * k;
             }
-
-            print!(" {} ", j);
-            println!("shift: {} ", format!("{:#010b}", byte));
             buf.push(byte);
 
             file.write(&buf).unwrap();
@@ -282,8 +279,6 @@ fn trans01(prefix: &str) {
     // Calculate number of individuals and number of SNPs
     let num_individuals = fam_reader.lines().count();
     let num_snps = bim_reader.lines().count();
-    println!("num_individuals: {}", num_individuals);
-    println!("num_snps: {}", num_snps);
 
     let mut bed_vec = vec![vec![0 ; num_snps] ; num_individuals];
 
@@ -348,9 +343,6 @@ fn trans01(prefix: &str) {
                 // println!("{:?}", j * 4 + k );
                 byte += tbed_vec[i][j * 4 + k] << 2 * k;
             }
-
-            print!(" {} ", i);
-            println!("shift: {} ", format!("{:#010b}", byte));
             buf.push(byte);
 
             file.write(&buf).unwrap();
