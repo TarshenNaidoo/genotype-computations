@@ -328,7 +328,6 @@ fn trans01(prefix: &str) {
     // Inverse to the vector population above. Vector contents are written to a buffer and written to file
     let mut file = File::create(format!("{}.check", prefix)).unwrap();
 
-
     file.write(&magic_buf).unwrap();
     file.write(&[0b00000001]).unwrap();
 
